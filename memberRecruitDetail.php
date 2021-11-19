@@ -6,7 +6,7 @@ debug('「メンバー募集詳細ページ');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「');
 debugLogStart();
 
-//ログイン認証なし
+//ログイン認証は後で
 
 //=====================
 //画面処理
@@ -30,6 +30,33 @@ if(!empty($b_id) && empty($dbBoardData)){
     debug('GETパラメータの掲示板IDが違います。メンバー募集検索ページへ遷移します。');
     header("Location:memberRecruit.php");
     exit();
+}
+
+//POST送信があった場合、掲示板を作成して遷移
+if(!empty($_POST['submit'])){
+    debug('POST送信があります。');
+
+    try{
+
+        //DB接続
+        $dbh = dbConnect();
+        $sql = 'INSERT INTO msg_board (host_team_id, guest_user_id, create_date) VALUES (:host_team_id, :guest_user_id, :create_date)';
+        $data = array(':host_team_id' => $dbBoardData['team_id'], ':guest_user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'));
+
+        debug('SQL:' . $sql);
+        debug('流し込みデータ：' . print_r($data,true));
+        $stmt = queryPost($dbh, $sql, $data);
+
+        if(!empty($stmt)){
+            debug('メッセージ画面へ遷移します。');
+            header("Location:msg.php?badge=0&h_team_id={$dbBoardData["team_id"]}&g_user_id={$_SESSION["user_id"]}");
+            exit();
+        }
+
+    }catch(Exception $e){
+        error_log('エラー発生：' . $e->getMessage());
+        $err_msg['common'] = MSG07;
+      }
 }
 
 debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
@@ -107,8 +134,11 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                     </section>
 
                     <?php if(!empty($_SESSION['user_id'])) : ?>
-                        <form action="">
-                            <input type="submit" class="btn btn-gray" value="募集に応募する">
+                        <form action="#" method="post">
+                            <div class="area-msg">
+                                <?php echo getErrMsg('comment'); ?>
+                            </div>
+                            <input type="submit" name="submit" class="btn btn-gray" value="募集に応募する">
                         </form>
                     <?php else : ?>
                         <div class="btn btn-signup">
