@@ -1,0 +1,10 @@
+label{
+    display: block;
+}
+select{
+    display: inline-block;
+    margin-right: 10px;
+}
+.t-level-text{
+    font-size: 20px;
+}

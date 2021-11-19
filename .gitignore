@@ -1,0 +1,5 @@
+*.numbers
+*.pages
+質問用.php
+出力用.php
+.DS_Store

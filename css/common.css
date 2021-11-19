@@ -1,0 +1,392 @@
+/*全体 --------------------------------------*/
+a{
+    text-decoration: none;
+    display: block;
+    color: white;
+    width: 100%;
+}
+h1{
+    font-size: 100px;
+    text-align: center;
+    margin-bottom: 80px;
+}
+h3{
+    font-size: 30px;
+    text-align: center;
+}
+img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.site-width{
+    max-width: 1700px;
+    margin: 0 auto;
+}
+
+.section-title{
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/*スライドメッセージ------------------------*/
+.msg-slide{
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    width:100%;
+    height:40px;
+    background: rgba(122,206,230,0.6);
+    text-align: center;
+    font-size:16px;
+    line-height: 40px;
+  }
+
+/*ボタン ---------------------------------*/
+.btn{
+    color: whitesmoke;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btn-wrapper-side{
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+}
+
+.btn-signup, .btn-login{
+    width: 160px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 20px;
+}
+.btn-signup{
+    background-color: #5FCE1A;
+}
+.btn-signup:hover{
+    background-color: #34710E;
+}
+.btn-login{
+    background-color: #43AFE8;
+}
+.btn-login:hover{
+    background-color: #2F6784;
+}
+#header-right .btn-login{
+    margin-left: 60px;
+}
+.btn-gray{
+    width: fit-content;
+    min-width: 280px;
+    margin: 0 auto;
+    background-color: #6F6F6F;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    padding: 0 20px;
+    font-size: 20px;
+}
+.btn-loggedin{
+    padding: 15px 20px;
+    font-size: 24px;
+}
+
+/*form --------------------------------*/
+
+.form-part{
+    margin: 0 auto 30px auto;
+    width: 100%;
+}
+.form-part label{
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.area-msg, .form-info{
+    font-size: 15px;
+}
+.area-msg{
+    color: red;
+}
+.form-info{
+    margin-left: 10px;
+}
+input[type="text"], input[type="password"], input[type="email"], input[type="number"], textarea{
+    display: block;
+    background-color: #E3E3E3;
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 20px;
+}
+input[type="text"], input[type="password"], input[type="email"]{
+    width: 100%;
+    height: 50px;
+}
+input[type="submit"]{
+    display: block;
+    margin: 40px auto;
+}
+input[type="number"]{
+    width: 100px;
+}
+
+select{
+    display: block;
+    width: fit-content;
+    min-width: 180px;
+    background-color: #E3E3E3;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 20px;
+    padding: 10px;
+}
+select:hover, input[type="checkbox"]:hover{
+    cursor: pointer;
+}
+
+form .area-drop{
+    display: block;
+    margin: 30px 10px 40px;
+    width: 370px;
+    height: 370px;
+    line-height: 370px;
+    border-radius: 50%;
+    background: #E3E3E3;
+    color: #ccc;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+}
+form .input-file{
+    opacity:0;
+    width:100%;
+    height:370px;
+    border-radius: 50%;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index: 2; /* 必ずz-indexをつけないと登録画像を変更する際にドラッグ＆ドロップできなくなる*/
+}
+form .prev-img{
+    width:100%;
+    height: 370px;
+    border-radius: 50%;
+    position:absolute;
+    top:0;
+    left:0;
+    object-fit: cover;
+}
+
+
+
+/*header -------------------------------------*/
+header{
+    width: 100%;
+    max-width: 1920px;
+    padding: 20px 30px;
+    color: white;
+    background-color: black;
+}
+header .site-width{
+    display: flex;
+    justify-content: space-between;
+}
+#header-left{
+    display: flex;
+    align-items: center;
+}
+#header-left h2{
+    margin-left: 70px;
+    font-size: 48px;
+}
+
+#header-right{
+    display: flex;
+    align-items: center;
+}
+
+
+/*main -------------------------------------*/
+/*main-1culim*/
+#main-1culum{
+    width: fit-content;
+    min-width: 800px;
+    margin: 75px auto 85px auto;
+    padding: 30px;
+    border: 3px solid #707070;
+}
+#main-1culum p{
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/*main-2culum*/
+#main-2culum{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 20px;
+}
+#main-left{
+    width: 73%;
+    margin-top: 50px;
+}
+.main-left-white, .main-left-gray{
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    padding: 30px;
+    border: 3px solid #707070;
+}
+
+.return-page{
+    color: black;
+    font-size: 18px;
+    text-decoration-line: underline;
+    margin-bottom: 10px;
+}
+/*main-left-gray---*/
+.main-left-gray{
+    background-color: #F5F5F5;
+}
+
+/*search-result----*/
+#search-result{
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+
+}
+.result-title{
+    background-color: black;
+}
+.result-title h3{
+    color: white;
+}
+.result-container{
+    display: flex;
+    background-color: #F5F5F5;
+    border: 1px solid #707070;
+    padding: 20px;
+}
+.result-wrapper{
+    width: 50%;
+    display: flex;
+    align-items: center;
+}
+.result-img{
+    width: 90px;
+    height: 90px;
+    margin-right: 30px;
+}
+.result-img img{
+    border-radius: 50%;
+}
+.result-text h4{
+    font-size: 24px;
+}
+.result-text p{
+    font-size: 15px;
+}
+
+/*side-bar*/
+#side-bar{
+    background-color: #F5F5F5;
+    border: 3px solid #707070;
+    width: 25%;
+    max-width: 310px;
+    margin: 50px 0;
+    padding: 30px 20px;
+    font-size: 24px;
+}
+.sidebar-link:not(:last-child){
+    margin-bottom: 10px;
+}
+.sidebar-link a{
+    color: black;
+}
+
+/*その他------*/
+.team-info{
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+.team-img{
+    margin-right: 30px;
+    width: 140px;
+    height: 140px;
+}
+.team-img img{
+    border-radius: 50%;
+}
+.team-name{
+    font-size: 36px;
+}
+.team-name a{
+    color: black;
+}
+
+.rec-title{
+    font-size: 24px;
+    text-align: left;
+    color: cornflowerblue;
+}
+
+/*footer -----------------------------------*/
+footer{
+    width: 100%;
+    max-width: 1920px;
+    padding: 10px 30px;
+    background-color: black;
+    color: white;
+}
+.footer-left p{
+    text-align: center;
+}
+
+
+/* 外部パーツ　 ------------------------------*/
+/* 共通 ------------------------------*/
+*[class*="cp-"],
+*[class*="cp-"] * {
+    box-sizing: border-box;
+}
+/* ページトップ ------------------------------*/
+.p-scroll {
+    text-align: center;
+    position: fixed;
+    z-index: 10;
+    right: 24px;
+    bottom: 40px;
+}
+.p-scroll a {
+    display: inline-block;
+    padding: 8px;
+    font-size: 12px;
+    border-radius: 8px;
+    color: #fff;
+    background: #6F6F6F;
+    text-decoration: none;
+}
+.p-scroll i {
+    font-size: 28px;
+}
+
+@media screen and (max-width: 599px) {
+    .p-scroll {
+        right: 15px;
+        bottom: 15px;
+    }
+    .p-scroll a {
+        padding: 6px;
+        font-size: 10px;
+    }
+    .p-scroll i {
+        font-size: 20px;
+    }
+}

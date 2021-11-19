@@ -1,0 +1,27 @@
+table{
+    margin-bottom: 60px;
+    background-color: #F5F5F5;
+    border: 1px solid #707070;
+    border-collapse: collapse;
+    font-size: 24px;
+}
+table th, table td{
+    padding: 10px 20px;
+    border-bottom: 1px solid #707070;
+
+}
+table th{
+    width: 30%;
+    text-align: left;
+}
+table td{
+    width: 70%;
+}
+table a{
+    color: black;
+    text-decoration-line: underline;
+}
+
+.btn-wrapper-side{
+    margin-bottom: 40px;
+}

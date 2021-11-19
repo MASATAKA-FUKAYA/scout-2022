@@ -1,0 +1,78 @@
+/*全体 ----------------------------------------------*/
+#side-bar{
+    background-color: #B7F4FF;
+}
+
+.prof-wrapper{
+    background-color: #B7F4FF;
+    padding: 30px;
+    margin-bottom: 50px;
+}
+
+.prof-title{
+    font-size: 36px;
+    border-bottom: 1px solid #707070;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+}
+
+.prof-contents-2culum{
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.prof-img{
+    margin-right: 15px;
+    width: 180px;
+    height: 180px;
+
+}
+.prof-img img{
+    border-radius: 50%;
+}
+
+.team-name{
+    font-size: 36px;
+}
+.team-name a{
+    color: black;
+}
+
+/*table -------------------------------------------*/
+table{
+    font-size: 20px;
+    margin-bottom: 40px;
+}
+table tr{
+    line-height: 2;
+}
+
+/*prof-table*/
+.prof-table th, .prof-table td{
+    padding: 0 15px;
+}
+.prof-table th{
+    text-align: left;
+}
+
+
+/*table-common*/
+.table-common th{
+    text-align: left;
+}
+.table-common-title01, .table-common-title02{
+    width: 20%;
+}
+
+/*btn -----------------------------------------*/
+.btn-mypage{
+    background-color: #222681;
+    width: 40%;
+    height: 60px;
+    line-height: 60px;
+    margin: 0 auto;
+    font-size: 20px;
+}
+
+

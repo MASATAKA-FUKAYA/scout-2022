@@ -1,0 +1,109 @@
+/*btn-top*/
+.btn-top-container{
+    display: flex;
+    justify-content: center;
+}
+#btn-top{
+    width: 210px;
+    font-size: 28px;
+}
+#btn-top:last-child {
+    margin-left: 100px;
+}
+
+/*main*/
+#main{
+    margin-bottom: 120px;
+}
+/*top-view*/
+#top-view{
+    color: white;
+    height: 500px;
+    text-align: center;
+    padding-top: 50px;
+    margin-bottom: 50px;
+    background-image: url(../img/top-background.jpg);
+    background-size: cover;
+}
+/*explanation*/
+#explanation{
+    text-align: center;
+    font-size: 24px;
+}
+/*point*/
+#point{
+    background-color: #EDEDED;
+    margin-bottom: 80px;
+}
+#point h2{
+    background-color: #D67834;
+    color: whitesmoke;
+}
+/*アコーディオン -------------------------------*/
+/* テキスト */
+.cp-text {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #707070;
+}
+* + .cp-text {
+    margin: 16px 0 0 0;
+}
+
+.cp-accordion01 {
+    position: relative;
+    width: 100%;
+    outline: 0;
+    border-top: none;
+}
+
+/* アイテム */
+.cp-accordion01__item {
+    border: 2px solid #D67834;
+}
+.cp-accordion01__item:not(:last-child) {
+    border-bottom: none;
+}
+
+/* 見出し */
+.cp-accordion01__title {
+    position: relative;
+    padding: 12px;
+    font-size: 18px;
+    line-height: 1.5;
+    transition: .2s ease-in-out;
+    color: #fff;
+    background: #D67834;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+}
+.cp-accordion01__title:hover {
+    opacity: 0.7;
+}
+.cp-accordion01__title:after {
+    display: block;
+    position: absolute;
+    content: "";
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    right: 8px;
+    transition: all 0.2s ease-in-out;
+    width: 8px;
+    height: 8px;
+    border-top: solid 2px #fff;
+    border-right: solid 2px #fff;
+    transform: rotate(135deg);
+}
+.cp-accordion01__title.active:after {
+    transform: rotate(-45deg);
+}
+
+/* コンテンツ */
+.cp-accordion01__content {
+    margin-top: 0;
+    padding: 24px;
+    display: none;
+}

@@ -1,0 +1,36 @@
+.result-container{
+    flex-direction: column;
+}
+
+.result-container section{
+    width: 100%;
+    border-bottom: 1px solid #707070;
+    padding-bottom: 20px;
+}
+.opponent-rec-date, .opponent-rec-text{
+    color: black;
+}
+
+.opponent-rec-date{
+    font-size: 24px;
+}
+
+.result-wrapper{
+    width: 100%;
+    padding-top: 20px;
+}
+
+.result-wrapper a{
+    color: black;
+    display: flex;
+}
+
+.result-text{
+    display: flex;
+    align-items: center;
+}
+
+.result-text h4{
+    margin-right: 20px;
+}
+

@@ -1,0 +1,49 @@
+.opponent-rec-view{
+    margin-bottom: 40px;
+}
+.opponent-rec-date{
+    font-size: 20px;
+}
+
+.result-wrapper{
+    width: fit-content;
+    margin-bottom: 30px;
+}
+
+.detail-title{
+    background-color: black;
+    color: white;
+    font-size: 24px;
+    padding: 20px 30px;
+    text-align: left;
+}
+
+table{
+    background-color: white;
+    border: 1px solid #707070;
+    border-collapse: collapse;
+    font-size: 18px;
+    width: 100%;
+    margin-bottom: 60px;
+}
+th, td{
+    border-bottom: 1px solid #707070;
+    vertical-align: top;
+}
+th{
+    width: 30%;
+    text-align: left;
+    padding: 20px;
+}
+td{
+    width: 70%;
+    padding: 20px 10px;
+}
+
+.main-left-gray .btn{
+    margin: 0 auto 10px auto;
+    min-width: 250px;
+}
+.btn-info{
+    text-align: center;
+}
