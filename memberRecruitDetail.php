@@ -107,9 +107,9 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                     </section>
 
                     <?php if(!empty($_SESSION['user_id'])) : ?>
-                        <div class="btn btn-gray">
-                            <a href="msg.php">募集に応募する</a>
-                        </div>
+                        <form action="">
+                            <input type="submit" class="btn btn-gray" value="募集に応募する">
+                        </form>
                     <?php else : ?>
                         <div class="btn btn-signup">
                             <a href="signup.php">ユーザー登録</a>
