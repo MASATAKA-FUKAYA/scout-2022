@@ -79,6 +79,7 @@ define('SUC05','チーム情報を登録しました');
 define('SUC06','メンバー情報を登録しました');
 define('SUC07','募集を投稿しました');
 
+
 //========================
 //バリデーション関数
 //========================
@@ -784,15 +785,15 @@ function getOneOppBoard($b_id){
 }
 
 //メッセージ掲示板
-function getMsgBoard($h_team_id, $g_user_id){
+function getMsgBoard($b_id){
     debug('メッセージ情報を取得します。');
 
     try{
         //DB接続
         $dbh = dbConnect();
         //SQL文作成
-        $sql = 'SELECT * FROM msg_board WHERE host_team_id = :h_team_id AND guest_user_id = :g_user_id AND delete_flg = 0';
-        $data = array(':h_team_id' => $h_team_id, ':g_user_id' => $g_user_id);
+        $sql = 'SELECT * FROM msg_board WHERE id = :b_id AND delete_flg = 0';
+        $data = array(':b_id' => $b_id);
         //クエリ実行
         $stmt = queryPost($dbh, $sql, $data);
 
