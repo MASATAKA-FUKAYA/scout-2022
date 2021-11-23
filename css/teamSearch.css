@@ -8,3 +8,12 @@ select{
 .t-level-text{
     font-size: 20px;
 }
+.result-wrapper{
+    width: 100%;
+}
+.result-wrapper a{
+    color: black;
+    width: 50%;
+    display: flex;
+    align-items: center;
+}

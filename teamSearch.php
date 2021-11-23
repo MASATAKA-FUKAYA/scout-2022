@@ -219,13 +219,15 @@ if(!empty($_POST)){
                                 foreach($result as $key => $val) :
                         ?>
                             <div class="result-wrapper">
-                                <div class="result-img"><img src="<?php echo $val['pic']; ?>" alt="<?php echo $val['team_name']; ?>"></div>
-                                <div class="result-text">
-                                    <h4><?php echo $val['team_name']; ?></h4>
-                                    <p><?php echo $val['prefectures'].$val['city']; ?></p>
-                                    <p><?php echo getLevelName($val['level_id'])['name']; ?>中心</p>
-                                    <p><?php echo getCategoryName($val['category_id'])['name']; ?></p>
-                                </div>
+                                <a href="teamDetail.php?t_id=<?php echo $val['id']; ?>">
+                                    <div class="result-img"><img src="<?php echo $val['pic']; ?>" alt="<?php echo $val['team_name']; ?>"></div>
+                                    <div class="result-text">
+                                        <h4><?php echo $val['team_name']; ?></h4>
+                                        <p><?php echo $val['prefectures'].$val['city']; ?></p>
+                                        <p><?php echo getLevelName($val['level_id'])['name']; ?>中心</p>
+                                        <p><?php echo getCategoryName($val['category_id'])['name']; ?></p>
+                                    </div>
+                                </a>
                             </div>
                         <?php
                                 endforeach;
