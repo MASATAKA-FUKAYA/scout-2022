@@ -6,7 +6,7 @@ debug('「対戦相手募集詳細ページ');
 debug('「「「「「「「「「「「「「「「「「「「「「「「「「');
 debugLogStart();
 
-//ログイン認証
+//ログイン認証は後で
 
 //=====================
 //画面処理
@@ -21,6 +21,10 @@ $dbBoardData = (!empty($b_id)) ? getOneOppBoard($b_id) : '';
 debug('DB掲示板データ：'.print_r($dbBoardData,true));
 $dbTeamData = getTeam($dbBoardData['team_id']);
 debug('DBチームデータ：'.print_r($dbTeamData,true));
+//チーム代表者のID（応募ボタンを表示する判定で使用）を取得
+$hostUserId = $dbTeamData['host_user_id'];
+debug('チーム代表者ID：'. print_r($hostUserId, true));
+
 
 //パラメータ改ざんチェック
 //====================
@@ -48,6 +52,36 @@ $week = [
   '土', //6
 ];
 
+
+//POST送信があった場合、掲示板を作成して遷移
+if(!empty($_POST['submit'])){
+    debug('POST送信があります。');
+    //まずログイン認証
+    require('auth.php');
+
+    try{
+        //DB接続
+        $dbh = dbConnect();
+        $sql = 'INSERT INTO msg_board (host_team_id, guest_user_id, create_date) VALUES (:host_team_id, :guest_user_id, :create_date)';
+        $data = array(':host_team_id' => $dbBoardData['team_id'], ':guest_user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'));
+
+        debug('SQL:' . $sql);
+        debug('流し込みデータ：' . print_r($data,true));
+        $stmt = queryPost($dbh, $sql, $data);
+
+        if(!empty($stmt)){
+            $b_id = $dbh->lastInsertId();
+            debug('メッセージ画面へ遷移します。');
+            header("Location:msg.php?badge=1&b_id={$b_id}");
+            exit();
+        }
+
+    }catch(Exception $e){
+        error_log('エラー発生：' . $e->getMessage());
+        $err_msg['common'] = MSG07;
+      }
+}
+
 debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
 ?>
 
@@ -65,9 +99,6 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
             <div id="main-left">
                 <section class="main-left-gray">
                     <a class="return-page" href="opponentRecruit.php">募集一覧へ戻る</a>
-                    <?php if(!empty($_SESSION['user_id'])) : ?>
-                        <a class="return-page" href="makeOpponentRecruit.php?b_id=<?php echo $b_id; ?>">募集を編集する</a>
-                    <?php endif; ?>
 
                     <h2 class="section-title">対戦相手を募集</h2>
 
@@ -133,11 +164,23 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                         </table>
                     </section>
 
-                    <?php if(!empty($_SESSION['user_id'])) : ?>
+                    <?php if(!empty($_SESSION['user_id']) && $hostUserId != $_SESSION['user_id']) : ?>
+                        <!-- ログインユーザーが募集の作成者ではない場合、応募するボタン -->
+                        <form action="#" method="post">
+                            <div class="area-msg">
+                                <?php echo getErrMsg('comment'); ?>
+                            </div>
+                            <input type="submit" name="submit" class="btn btn-gray" value="対戦申し込み">
+                        </form>
+
+                    <?php elseif(!empty($_SESSION['user_id']) && $hostUserId == $_SESSION['user_id']) : ?>
+                        <!-- ログインユーザーが募集の作成者の場合、募集を編集するボタン -->
                         <div class="btn btn-gray">
-                            <a href="msg.php">対戦申し込み</a>
+                            <a href="makeMemberRecruit.php?b_id=<?php echo $b_id; ?>">募集を編集する</a>
                         </div>
-                    <?php else : ?>
+
+                    <?php elseif(empty($_SESSION['user_id'])) : ?>
+                        <!-- そもそもユーザーが未ログインの場合、ログインさせる -->
                         <div class="btn btn-signup">
                             <a href="signup.php">ユーザー登録</a>
                         </div>
@@ -145,7 +188,9 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                             <a href="login.php">ログイン</a>
                         </div>
                         <p class="btn-info">※対戦申し込みにはユーザー登録またはログインが必要です。</p>
+
                     <?php endif; ?>
+
                 </section>
             </div>
 
