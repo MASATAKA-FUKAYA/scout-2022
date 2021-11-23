@@ -39,6 +39,47 @@ debug('DBチームレベルデータ：'.print_r($dbLevelData,true));
 $dbCategoryData = getCategoryName($dbFormData['category_id']);
 debug('DBチーム種類データ：'.print_r($dbCategoryData,true));
 
+
+//POST送信があった場合、掲示板を作成して遷移
+if(!empty($_POST)){
+    debug('POST送信があります。');
+
+    if(!empty($_POST['badge=0'])){
+        debug('参加の申し込みです。');
+        $badge = 0;
+    }elseif(!empty($_POST['badge=1'])){
+        debug('対戦の申し込みです。');
+        $badge = 1;
+    }else{
+        debug('不正な値が入りました。');
+    }
+
+    try{
+
+        //DB接続
+        $dbh = dbConnect();
+        $sql = 'INSERT INTO msg_board (host_team_id, guest_user_id, create_date) VALUES (:host_team_id, :guest_user_id, :create_date)';
+        $data = array(':host_team_id' => $dbFormData['id'], ':guest_user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'));
+
+        debug('SQL:' . $sql);
+        debug('流し込みデータ：' . print_r($data,true));
+        $stmt = queryPost($dbh, $sql, $data);
+
+        if(!empty($stmt)){
+            $b_id = $dbh->lastInsertId();
+            debug('メッセージ画面へ遷移します。');
+            header("Location:msg.php?badge={$badge}&b_id={$b_id}");
+            exit();
+        }
+
+    }catch(Exception $e){
+        error_log('エラー発生：' . $e->getMessage());
+        $err_msg['common'] = MSG07;
+      }
+}
+
+debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
+
 ?>
 
 <?php
@@ -114,14 +155,12 @@ debug('DBチーム種類データ：'.print_r($dbCategoryData,true));
                             <a href="teamEdit.php?t_id=<?php echo $t_id; ?>">チーム情報編集</a>
                         </div>
                     <?php else : ?>
-                        <div class="btn-wrapper-side">
-                            <div class="btn btn-gray">
-                                <a href="msg.php?badge=0&h_team_id=<?php echo $t_id; ?>&g_user_id=<?php echo $_SESSION['user_id']; ?>">参加申し込み</a>
-                            </div>
-                            <div class="btn btn-gray">
-                                <a href="msg.php?badge=1&h_team_id=<?php echo $t_id; ?>&g_user_id=<?php echo $_SESSION['user_id']; ?>">対戦申し込み</a>
-                            </div>
-                        </div>
+
+                            <form action="" method="post">
+                                <input type="submit" name="badge=0" class="btn btn-gray" value="参加申し込み">
+                                <input type="submit" name="badge=1" class="btn btn-gray" value="対戦申し込み">
+                            </form>
+
                     <?php endif; ?>
 
                 </section>
