@@ -87,9 +87,11 @@ if(!empty($t_id) && empty($dbTeamData)){
                         <div class="btn btn-gray">
                             <a href="teamDetail.php?t_id=<?php echo $t_id; ?>">チーム情報に戻る</a>
                         </div>
-                        <div class="btn btn-gray">
-                            <a href="teamMemberEdit.php?t_id=<?php echo $t_id; ?>">メンバーを追加する</a>
-                        </div>
+                        <?php if($dbTeamData['host_user_id'] == $_SESSION['user_id']) : ?>
+                            <div class="btn btn-gray">
+                                <a href="teamMemberEdit.php?t_id=<?php echo $t_id; ?>">メンバーを追加する</a>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </section>
             </div>
