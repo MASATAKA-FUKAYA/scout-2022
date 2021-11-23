@@ -140,7 +140,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                             <div class="area-msg">
                                 <?php echo getErrMsg('comment'); ?>
                             </div>
-                            <input type="submit" name="submit" class="btn btn-gray" value="募集に応募する">
+                            <input type="submit" name="submit" class="btn btn-gray" value="参加申し込み">
                         </form>
 
                     <?php elseif(!empty($_SESSION['user_id']) && $hostUserId == $_SESSION['user_id']) : ?>
