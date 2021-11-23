@@ -21,6 +21,9 @@ $dbBoardData = (!empty($b_id)) ? getOneMemBoard($b_id) : '';
 debug('DB掲示板データ：'.print_r($dbBoardData,true));
 $dbTeamData = getTeam($dbBoardData['team_id']);
 debug('DBチームデータ：'.print_r($dbTeamData,true));
+//チーム代表者のID（応募ボタンを表示する判定で使用）を取得
+$hostUserId = $dbTeamData['host_user_id'];
+debug('チーム代表者ID：'. print_r($hostUserId, true));
 
 //パラメータ改ざんチェック
 //====================
@@ -48,8 +51,9 @@ if(!empty($_POST['submit'])){
         $stmt = queryPost($dbh, $sql, $data);
 
         if(!empty($stmt)){
+            $b_id = $dbh->lastInsertId();
             debug('メッセージ画面へ遷移します。');
-            header("Location:msg.php?badge=0&h_team_id={$dbBoardData["team_id"]}&g_user_id={$_SESSION["user_id"]}");
+            header("Location:msg.php?badge=0&b_id={$b_id}");
             exit();
         }
 
@@ -76,9 +80,6 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
             <div id="main-left">
                 <section class="main-left-gray">
                     <a class="return-page" href="memberRecruit.php">募集一覧へ戻る</a>
-                    <?php if(!empty($_SESSION['user_id'])) : ?>
-                        <a class="return-page" href="makeMemberRecruit.php?b_id=<?php echo $b_id; ?>">募集を編集する</a>
-                    <?php endif; ?>
 
                     <h2 class="section-title">メンバーを募集</h2>
 
@@ -133,19 +134,33 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                         </table>
                     </section>
 
-                    <?php if(!empty($_SESSION['user_id'])) : ?>
+                    <?php if(!empty($_SESSION['user_id']) && $hostUserId != $_SESSION['user_id']) : ?>
+                        <!-- ログインユーザーが募集の作成者ではない場合、応募するボタン -->
                         <form action="#" method="post">
                             <div class="area-msg">
                                 <?php echo getErrMsg('comment'); ?>
                             </div>
                             <input type="submit" name="submit" class="btn btn-gray" value="募集に応募する">
                         </form>
-                    <?php else : ?>
+
+                    <?php elseif(!empty($_SESSION['user_id']) && $hostUserId == $_SESSION['user_id']) : ?>
+                        <!-- ログインユーザーが募集の作成者の場合、募集を編集するボタン -->
+                        <div class="btn btn-gray">
+                            <a href="makeMemberRecruit.php?b_id=<?php echo $b_id; ?>">募集を編集する</a>
+                        </div>
+
+                    <?php elseif(empty($_SESSION['user_id'])) : ?>
+                        <!-- そもそもユーザーが未ログインの場合、ログインさせる -->
                         <div class="btn btn-signup">
                             <a href="signup.php">ユーザー登録</a>
                         </div>
-                        <p class="btn-info">※募集に応募するにはユーザー登録が必要です。</p>
+                        <div class="btn btn-login">
+                            <a href="login.php">ログイン</a>
+                        </div>
+                        <p class="btn-info">※対戦申し込みにはユーザー登録またはログインが必要です。</p>
+
                     <?php endif; ?>
+
                 </section>
             </div>
 

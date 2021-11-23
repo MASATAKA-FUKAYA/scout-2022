@@ -20,30 +20,30 @@ if($badge == 0){
     debug('対戦希望です');
 }
 
-$h_team_id = $_GET['h_team_id'];
-$g_user_id = $_GET['g_user_id'];
+$b_id = $_GET['b_id'];
 
 //DBからデータを取得========
-//掲示板とメッセージデータ
-
-
+//掲示板、メッセージデータ
+$dbBoardData = getMsgBoard($b_id);
+debug('掲示板・メッセージデータ：'. print_r($dbBoardData, true));
 
 //チームデータ、代表者データ
-$dbTeamData = getTeam($h_team_id);
+$dbTeamData = getTeam($dbBoardData['host_team_id']);
 debug('チームデータ：'. print_r($dbTeamData, true));
 
-$hostUser = getTeamHost($h_team_id);
+$hostUser = getTeamHost($dbBoardData['host_team_id']);
 debug('チーム代表者データ：'. print_r($hostUser, true));
 
 //相手と自分のユーザー情報===============
-//from_user_idはログインしているユーザー
+//from_user_id（メッセージの送信者）はログインしているユーザー
 $fromUserData = getUser($_SESSION['user_id']);
 debug('メッセージ送信者データ：'. print_r($fromUserData, true));
 
-//host_user_idと$_SESSIONのuser_idが同じなら送信者はチーム代表者。メッセージのto_user_idはguest_user_id
+//host_user_idと$_SESSIONのuser_idが同じなら送信者はチーム代表者。メッセージのto_user_id（受信者）はguest_user_id
 if($dbTeamData['host_user_id'] === $_SESSION['user_id']){
-    $toUserData = getUser();
+    $toUserData = getUser($dbBoardData['guest_user_id']);
     debug('メッセージ受信者データ：'. print_r($toUserData, true));
+
 }else{//違うなら、送信者はゲスト。to_user_idはhost_user_id
     $toUserData = getUser($dbTeamData['host_user_id']);
     debug('メッセージ受信者データ：'. print_r($toUserData, true));
@@ -66,7 +66,16 @@ if(!empty($_POST)){
         try{
             //DB接続
             $dbh = dbConnect();
-            $sql = 'INSERT INTO ';
+            $sql = 'INSERT INTO message (msg_board_id, to_user_id, from_user_id, msg, create_date) VALUES (:msg_board_id, :to_user_id, :from_user_id, :msg, :create_date)';
+            $data = array('msg_board_id' => $b_id, 'to_user_id' => $toUserData['id'], 'from_user_id' => $_SESSION['user_id'], 'msg' => $msg, ':create_date' => date('Y-m-d H:i:s'));
+
+            $stmt = queryPost($dbh, $sql, $data);
+
+            if($stmt){
+                $_POST = array();     //POSTをクリア
+                debug('メッセージページへ遷移します。');
+                header("Location:" .$_SERVER['PHP_SELF']. '?b_id=' .$b_id. '&badge='. $badge);    //自分自身へ遷移する
+            }
 
         }catch(Exception $e){
             error_log('エラー発生：' . $e->getMessage());
@@ -122,7 +131,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
 
                     <div class="opponent-info">
                         <div class="opponent-info-img">
-                            <img src="<?php echo $hostUser['pic']; ?>" alt="プロフ画像">
+                            <img src="<?php echo $hostUser['pic']; ?>" alt="<?php echo $hostUser['u_name']; ?>">
                         </div>
                         <div>
                             <p style="font-size: 12px;">代表者</p>
@@ -131,95 +140,49 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                     </div>
 
                     <div class="area-board">
-                        <div class="msg-container">
-                            <div class="user-wrapper-right">
-                                <div class="user-img">
-                                    <img src="img/user_prof01.jpg" alt="">
-                                </div>
-                                <p class="user-name">自分</p>
-                            </div>
-                            <div class="text-wrapper-right">
-                                <div class='msg-text-right'>
-                                    こんにちは！掲示板を見てご連絡させていただきました！練習試合をお願いしたいです！
-                                </div>
-                                <p class="send-date">21.10.13 19:36</p>
-                            </div>
-                        </div>
 
-                        <div class="msg-container">
-                            <div class="user-wrapper-left">
-                                <div class="user-img">
-                                    <img src="img/user_prof01.jpg" alt="">
-                                </div>
-                                <p class="user-name">立風　和義</p>
-                            </div>
-                            <div class="text-wrapper-left">
-                                <div class='msg-text-left'>
-                                    ご連絡ありがとうございます！名古屋ドラゴンズ代表の立風です！
-                                </div>
-                                <p class="send-date">21.10.13 19:36</p>
-                            </div>
-                        </div>
+                        <?php foreach($dbBoardData['msg'] as $key => $val) : ?>
 
-                        <div class="msg-container">
-                            <div class="user-wrapper-left">
-                                <div class="user-img">
-                                    <img src="img/user_prof01.jpg" alt="">
+                            <!-- 自分が送信したメッセージ -->
+                            <?php if($val['from_user_id'] == $_SESSION['user_id']): ?>
+                                <!-- $fromUserDataは必ず現在ログインしているユーザーなので、その情報を使う -->
+                                <div class="msg-container">
+                                    <div class="user-wrapper-right">
+                                        <div class="user-img">
+                                            <img src="<?php if(!empty($fromUserData['pic'])){ echo $fromUserData['pic']; } else { echo 'img/user-icon-default.png'; } ?>" alt="<?php echo $fromUserData['u_name']; ?>">
+                                        </div>
+                                        <p class="user-name"><?php echo $fromUserData['u_name']; ?></p>
+                                    </div>
+                                    <div class="text-wrapper-right">
+                                        <div class='msg-text-right'>
+                                            <?php echo $val['msg']; ?>
+                                        </div>
+                                        <p class="send-date"><?php echo $val['create_date']; ?></p>
+                                    </div>
                                 </div>
-                                <p class="user-name">立風　和義</p>
-                            </div>
-                            <div class="text-wrapper-left">
-                                <div class='msg-text-left'>
-                                    ご連絡ありがとうございます！名古屋ドラゴンズ代表の立風です！
-                                </div>
-                                <p class="send-date">21.10.13 19:36</p>
-                            </div>
-                        </div>
 
-                        <div class="msg-container">
-                            <div class="user-wrapper-left">
-                                <div class="user-img">
-                                    <img src="img/user_prof01.jpg" alt="">
-                                </div>
-                                <p class="user-name">立風　和義</p>
-                            </div>
-                            <div class="text-wrapper-left">
-                                <div class='msg-text-left'>
-                                    ご連絡ありがとうございます！名古屋ドラゴンズ代表の立風です！
-                                </div>
-                                <p class="send-date">21.10.13 19:36</p>
-                            </div>
-                        </div>
+                            <!-- 相手が送信したメッセージ（相手が自分に送ったメッセージ） -->
+                            <?php elseif($val['to_user_id'] == $_SESSION['user_id']): ?>
+                                <!-- 相手はチーム代表者の場合も、ゲスト（募集応募者）の場合もあるので、改めてユーザー情報を取り直す -->
+                                <?php $partnerUser = getUser($val['from_user_id']); ?>
+                                    <div class="msg-container">
+                                        <div class="user-wrapper-left">
+                                            <div class="user-img">
+                                                <img src="<?php if(!empty($partnerUser['pic'])){ echo $partnerUser['pic']; } else { echo 'img/user-icon-default.png'; } ?>" alt="<?php echo $$partnerUser['u_name']; ?>">
+                                            </div>
+                                            <p class="user-name"><?php echo $partnerUser['u_name']; ?></p>
+                                        </div>
+                                        <div class="text-wrapper-left">
+                                            <div class='msg-text-left'>
+                                                <?php echo $val['msg']; ?>
+                                            </div>
+                                            <p class="send-date"><?php echo $val['create_date']; ?></p>
+                                        </div>
+                                    </div>
+                            <?php endif; ?>
 
-                        <div class="msg-container">
-                            <div class="user-wrapper-right">
-                                <div class="user-img">
-                                    <img src="img/user_prof01.jpg" alt="">
-                                </div>
-                                <p class="user-name">自分</p>
-                            </div>
-                            <div class="text-wrapper-right">
-                                <div class='msg-text-right'>
-                                    こんにちは！掲示板を見てご連絡させていただきました！練習試合をお願いしたいです！
-                                </div>
-                                <p class="send-date">21.10.13 19:36</p>
-                            </div>
-                        </div>
+                        <?php endforeach;?>
 
-                        <div class="msg-container">
-                            <div class="user-wrapper-right">
-                                <div class="user-img">
-                                    <img src="img/user_prof01.jpg" alt="">
-                                </div>
-                                <p class="user-name">自分</p>
-                            </div>
-                            <div class="text-wrapper-right">
-                                <div class='msg-text-right'>
-                                    こんにちは！掲示板を見てご連絡させていただきました！練習試合をお願いしたいです！
-                                </div>
-                                <p class="send-date">21.10.13 19:36</p>
-                            </div>
-                        </div>
                     </div>
 
                     <form action="" method="post">
