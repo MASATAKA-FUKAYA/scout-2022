@@ -26,17 +26,17 @@
 }
 .member-num{
     font-size: 40px;
-    width: calc((100%-75px) * 0.15);
+    width: 15%;
     text-align: center;
 }
 .member-text{
     display: flex;
     align-items: center;
-    width: calc((100%-75px) * 0.85);
+    width: 80%;
 }
 .member-text p{
     font-size: 12px;
-    margin-right: 20px;
+    margin-right: 10px;
     width: 30%;
 }
 .member-text h4{
