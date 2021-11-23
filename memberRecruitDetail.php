@@ -38,6 +38,8 @@ if(!empty($b_id) && empty($dbBoardData)){
 //POST送信があった場合、掲示板を作成して遷移
 if(!empty($_POST['submit'])){
     debug('POST送信があります。');
+    //まずログイン認証
+    require('auth.php');
 
     try{
 
