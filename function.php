@@ -800,7 +800,8 @@ function getMsgBoard($b_id){
         if($stmt){
             //クエリ結果のデータを1レコード返却（これでメッセージ掲示板が決まる）
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            $sql2 = 'SELECT * FROM message WHERE msg_board_id = :b_id AND delete_flg = 0';
+            //古いメッセージは上に
+            $sql2 = 'SELECT * FROM message WHERE msg_board_id = :b_id AND delete_flg = 0 ORDER BY create_date';
             $data2 = array(':b_id' => $result['id']);
 
             $stmt2 = queryPost($dbh, $sql2, $data2);
