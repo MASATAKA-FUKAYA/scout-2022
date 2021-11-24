@@ -372,26 +372,26 @@ function getMyALLTeam($u_id){
 
         //2.team1_idがあればそのチームを取得
         $sql2 = 'SELECT t.id, t.team_name, t.prefectures, t.city, t.category_id, t.level_id, t.comment, t.url, t.pic FROM team AS t LEFT JOIN users AS u ON t.id = u.team1_id WHERE u.id = :u_id AND t.delete_flg = 0';
-        $data = array(':u_id' => $u_id);
+        $data2 = array(':u_id' => $u_id);
         //クエリ実行
-        $stmt = queryPost($dbh, $sql2, $data);
+        $stmt2 = queryPost($dbh, $sql2, $data2);
 
         //クエリ結果のデータを全レコード返却、resultへ格納
-        if($stmt){
-            $result[] = $stmt->fetchAll();
+        if(!empty($stmt2->fetchAll())){
+            $result[] = $stmt2;
         }else{
             debug('自分が参加しているチームがありませんでした。');
         }
 
         //3.team2_idがあればそのチームを取得（他人の作ったチームへの参加は２チームまで）
         $sql3 = 'SELECT t.id, t.team_name, t.prefectures, t.city, t.category_id, t.level_id, t.comment, t.url, t.pic FROM team AS t LEFT JOIN users AS u ON t.id = u.team2_id WHERE u.id = :u_id AND t.delete_flg = 0';
-        $data = array(':u_id' => $u_id);
+        $data3 = array(':u_id' => $u_id);
         //クエリ実行
-        $stmt = queryPost($dbh, $sql3, $data);
+        $stmt3 = queryPost($dbh, $sql3, $data3);
 
         //クエリ結果のデータを全レコード返却、resultへ格納
-        if($stmt){
-            $result[] = $stmt->fetchAll();
+        if(!empty($stmt3->fetchAll())){
+            $result[] = $stmt3;
         }else{
             debug('自分が参加しているチームがありませんでした。');
         }
