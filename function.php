@@ -821,6 +821,61 @@ function getMsgBoard($b_id){
     }
 }
 
+//マイページ用、募集掲示板取得
+function getMyRecBoard($u_id){
+    debug('自分が投稿した募集の情報を取得します。');
+
+    $result = array();
+
+    try{
+        //DB接続
+        $dbh = dbConnect();
+        //SQL文作成、対戦相手募集掲示板
+        $sql = 'SELECT id,team_id,title,update_date FROM opp_rec_board WHERE host_user_id = :u_id AND delete_flg = 0 ORDER BY update_date DESC LIMIT 3';
+        $data = array(':u_id' => $u_id);
+        //クエリ実行
+        $stmt = queryPost($dbh, $sql, $data);
+
+        //クエリ結果のデータを全レコード返却
+        $result['opp'] = $stmt->fetchAll();
+
+        if(!empty($result)){
+            debug('対戦相手募集掲示板への投稿を取得しました。');
+        }else{
+            debug('対戦相手募集掲示板への投稿がありませんでした。');
+        }
+
+        //SQL文作成、メンバー募集掲示板
+        $sql2 = 'SELECT id,team_id,title,update_date FROM mem_rec_board WHERE host_user_id = :u_id AND delete_flg = 0 ORDER BY update_date DESC LIMIT 3';
+        //クエリ実行
+        $stmt2 = queryPost($dbh, $sql2, $data);
+
+        //クエリ結果のデータを全レコード返却
+        $result['mem'] = $stmt2->fetchAll();
+        if(!empty($result)){
+            debug('メンバー募集掲示板への投稿を取得しました。');
+        }else{
+            debug('メンバー募集掲示板への投稿がありませんでした。');
+        }
+
+        return $result;
+
+    }catch(Exception $e){
+        error_log('エラー発生：'.$e->getMessage());
+    }
+
+}
+
+//マイページ用、メッセージ掲示板取得
+
+
+
+
+
+
+
+
+
 //=======================
 //その他
 //=======================
