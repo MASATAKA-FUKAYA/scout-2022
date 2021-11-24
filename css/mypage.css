@@ -9,6 +9,11 @@
     margin-bottom: 50px;
 }
 
+.prof-wrapper p{
+    text-align: center;
+    margin-top: 10px;
+}
+
 .prof-title{
     font-size: 36px;
     border-bottom: 1px solid #707070;
