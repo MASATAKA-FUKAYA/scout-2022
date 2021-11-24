@@ -13,7 +13,6 @@ debugLogStart();
 //=====================
 
 
-
 //DBからレベル・カテゴリーデータを取得
 $dbLevelData = getLevel();
 $dbCategoryData = getCategory();
@@ -52,8 +51,8 @@ if(!empty($_POST)){
             $data = array();
 
             if(!empty($t_name)){
-                $sql .= ' AND team_name = :team_name';
-                $data[':team_name'] = $t_name;
+                $sql .= ' AND team_name LIKE :team_name';
+                $data[':team_name'] = '%'. $t_name. '%';
             }
             if(!empty($pref)){
                 $sql .= ' AND prefectures = :prefectures';
