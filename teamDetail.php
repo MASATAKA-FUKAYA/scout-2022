@@ -105,7 +105,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                 <section class="main-left-white">
 
                     <div class="team-info">
-                        <div class="team-img"><img src="img/team_logo01.png" alt="チーム画像"></div>
+                        <div class="team-img"><img src="<?php echo $dbFormData['pic']; ?>" alt="チーム画像"></div>
                         <p class="team-name"><a href="teamDetail.php?t_id=<?php echo $t_id; ?>"><?php echo $dbFormData['team_name']; ?></a></p>
                     </div>
 
