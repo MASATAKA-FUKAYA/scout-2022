@@ -61,8 +61,14 @@ table tr{
 .table-common th{
     text-align: left;
 }
-.table-common-title01, .table-common-title02{
+.table-common-title01{
     width: 20%;
+}
+.table-common-title02{
+    width: 25%;
+}
+.table-common-title03{
+    width: 55%;
 }
 
 /*btn -----------------------------------------*/
