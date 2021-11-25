@@ -20,8 +20,10 @@ debug('取得したレベルDBデータ：'. print_r($dbLevelData, true));
 $dbTeamData = getMyALLTeam($u_id);
 debug('取得したチームDBデータ：'. print_r($dbTeamData, true));
 
-$dbRecBoardData = getMyRecBoard($u_id);
 //掲示板データは長いのでデバッグ省略
+$dbRecBoardData = getMyRecBoard($u_id);
+
+$dbMsgBoardData = getMyMsgBoard($u_id);
 
 debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
 ?>
@@ -125,11 +127,11 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                         <tbody>
                             <?php if($dbRecBoardData['opp']): ?>
                                 <?php foreach($dbRecBoardData['opp'] as $key => $val): ?>
-                                    <tr>
-                                        <td>対戦相手</td>
-                                        <td><?php echo mb_substr($val['update_date'], 0, 10) ; ?></td>
-                                        <td><?php echo $val['title']; ?></td>
-                                    </tr>
+                                        <tr>
+                                            <td>対戦相手</td>
+                                            <td><?php echo mb_substr($val['update_date'], 0, 10) ; ?></td>
+                                            <td><a href="opponentRecruitDetail.php?b_id=<?php echo $val['id']; ?>" style="color:black;"><?php echo $val['title']; ?></a></td>
+                                        </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
@@ -144,7 +146,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                                     <tr>
                                         <td>メンバー</td>
                                         <td><?php echo mb_substr($val['update_date'], 0, 10) ; ?></td>
-                                        <td><?php echo $val['title']; ?></td>
+                                        <td><a href="memberRecruitDetail.php?b_id=<?php echo $val['id']; ?>" style="color:black;"><?php echo $val['title']; ?></a></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
@@ -186,16 +188,30 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="table-common-text">ディバラ</td>
-                                <td class="table-common-text">21.10.04</td>
-                                <td class="table-common-text">グラウンドは、名古屋市緑区の…</td>
-                            </tr>
-                            <tr>
-                                <td class="table-common-text">ラムジー</td>
-                                <td class="table-common-text">21.10.04</td>
-                                <td class="table-common-text">活動日は主に土曜日の午前中です！</td>
-                            </tr>
+
+                            <?php if(!empty($dbMsgBoardData)): ?>
+                                <?php
+                                    foreach($dbMsgBoardData as $key => $val):
+                                        if($val['msg']['to_user_id'] == $_SESSION['user_id']){
+                                            $msgPartnerId = $val['msg']['from_user_id'];
+                                        }else{
+                                            $msgPartnerId = $val['msg']['to_user_id'];
+                                        }
+                                ?>
+                                    <tr>
+                                        <td><?php echo getUser($msgPartnerId)['u_name']; ?></td>
+                                        <td><?php echo mb_substr($val['msg']['update_date'], 0, 10) ; ?></td>
+                                        <td><a href="msg.php?b_id=<?php echo $val['msg_board_id']; ?>" style="color:black;"><?php if(mb_strlen($val['msg']['msg_text']) < 20){ echo $val['msg']['msg_text']; }else{ echo mb_substr($val['msg']['msg_text'], 0, 20). '…'; }?></a></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td>メンバー</td>
+                                    <td></td>
+                                    <td>まだ投稿がありません。</td>
+                                </tr>
+                            <?php endif; ?>
+
                         </tbody>
                     </table>
                     <div class="btn btn-mypage">
