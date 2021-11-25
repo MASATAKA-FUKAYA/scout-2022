@@ -867,14 +867,39 @@ function getMyRecBoard($u_id){
 }
 
 //マイページ用、メッセージ掲示板取得
+function getMyMsgBoard($u_id){
+    debug('自分が送受信したメッセージの情報を取得します。');
 
+    try{
+        //DB接続
+        $dbh = dbConnect();
+        //SQL文作成、まず掲示板ごとのデータを取得
+        $sql = 'SELECT mb.id AS msg_board_id FROM msg_board AS mb INNER JOIN team AS t ON mb.host_team_id = t.id WHERE mb.guest_user_id = :u_id OR t.host_user_id = :u_id AND mb.delete_flg = 0';
+        $data = array(':u_id' => $u_id);
+        //クエリ実行
+        $stmt = queryPost($dbh, $sql, $data);
 
+        //クエリ結果のデータを全レコード返却
+        $result = $stmt->fetchAll();
 
+        if(!empty($result)){
+            //掲示板ごとに、最後に送信されたメッセージのみ取得する
+            foreach($result as $key => $val){
+                $sql2 = 'SELECT id AS msg_id, to_user_id, from_user_id, msg AS msg_text, update_date FROM message WHERE msg_board_id = :result_board AND delete_flg = 0 ORDER BY update_date DESC';
+                $data2 = array(':result_board' => $val['msg_board_id']);
+                $stmt2 = queryPost($dbh, $sql2, $data2);
 
+                $result[$key]['msg'] = $stmt2->fetch(PDO::FETCH_ASSOC);
+            }
+        }
 
+        return $result;
 
+    }catch(Exception $e){
+        error_log('エラー発生：'.$e->getMessage());
+    }
 
-
+}
 
 //=======================
 //その他
