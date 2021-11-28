@@ -45,8 +45,8 @@ if(!empty($_POST['submit'])){
 
         //DB接続
         $dbh = dbConnect();
-        $sql = 'INSERT INTO msg_board (host_team_id, guest_user_id, create_date) VALUES (:host_team_id, :guest_user_id, :create_date)';
-        $data = array(':host_team_id' => $dbBoardData['team_id'], ':guest_user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'));
+        $sql = 'INSERT INTO msg_board (badge, host_team_id, guest_user_id, create_date) VALUES (:badge, :host_team_id, :guest_user_id, :create_date)';
+        $data = array(':badge' => $badge, ':host_team_id' => $dbBoardData['team_id'], ':guest_user_id' => $_SESSION['user_id'], ':create_date' => date('Y-m-d H:i:s'));
 
         debug('SQL:' . $sql);
         debug('流し込みデータ：' . print_r($data,true));
@@ -55,7 +55,7 @@ if(!empty($_POST['submit'])){
         if(!empty($stmt)){
             $b_id = $dbh->lastInsertId();
             debug('メッセージ画面へ遷移します。');
-            header("Location:msg.php?badge=0&b_id={$b_id}");
+            header("Location:msg.php?b_id={$b_id}");
             exit();
         }
 

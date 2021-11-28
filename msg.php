@@ -13,12 +13,6 @@ require('auth.php');
 //画面処理
 //=====================
 //GETパラメータを取得
-$badge = $_GET['badge'];
-if($badge == 0){
-    debug('チームへ参加希望です');
-}else{
-    debug('対戦希望です');
-}
 
 $b_id = $_GET['b_id'];
 
@@ -26,6 +20,12 @@ $b_id = $_GET['b_id'];
 //掲示板、メッセージデータ
 $dbBoardData = getMsgBoard($b_id);
 debug('掲示板・メッセージデータ：'. print_r($dbBoardData, true));
+$badge = $dbBoardData['badge'];
+if($badge == 0){
+    debug('チームへ参加希望です');
+}else{
+    debug('対戦希望です');
+}
 
 //チームデータ、代表者データ
 $dbTeamData = getTeam($dbBoardData['host_team_id']);
