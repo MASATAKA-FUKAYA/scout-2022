@@ -555,7 +555,7 @@ function getPitbat(){
         //DB接続
         $dbh = dbConnect();
         //SQL文作成
-        $sql = 'SELECT id,name FROM `pit-bat` WHERE delete_flg = 0';
+        $sql = 'SELECT id,name FROM `pit_bat` WHERE delete_flg = 0';
         $data = array();
         //クエリ実行
         $stmt = queryPost($dbh, $sql, $data);

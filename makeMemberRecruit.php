@@ -63,8 +63,8 @@ if(!empty($_POST)){
     $title = $_POST['title'];
     $pref = $_POST['prefectures'];
     $city= $_POST['city'];
-    $category = (!empty($_POST['category_id'])) ? $_POST['category_id'] : null;
-    $level = (!empty($_POST['level_id'])) ? $_POST['level_id'] : null;
+    $category = (!empty($_POST['category_id'])) ? $_POST['category_id'] : 0;
+    $level = (!empty($_POST['level_id'])) ? $_POST['level_id'] : 0;
     $mon = (!empty($_POST['mon'])) ? 1 : 0;
     $tue = (!empty($_POST['tue'])) ? 1 : 0;
     $wed = (!empty($_POST['wed'])) ? 1 : 0;
@@ -72,7 +72,7 @@ if(!empty($_POST)){
     $fri = (!empty($_POST['fri'])) ? 1 : 0;
     $sat = (!empty($_POST['sat'])) ? 1 : 0;
     $sun = (!empty($_POST['sun'])) ? 1 : 0;
-    $frequency = (!empty($_POST['frequency_id'])) ? $_POST['frequency_id'] : null;
+    $frequency = (!empty($_POST['frequency_id'])) ? $_POST['frequency_id'] : 0;
     $comment = $_POST['comment'];
 
     //バリデーションチェック
