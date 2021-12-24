@@ -167,11 +167,19 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                                     <?php if(!empty($dbBoardData['re_enter_flg'])){ echo '再出場可'; } ?>
                                     <?php if(!empty($dbBoardData['lend_member_flg'])){ echo 'メンバー貸し出し可'; } ?>
                                     <?php if(!empty($dbBoardData['pay_all_flg'])){ echo '費用は主催者負担'; } ?>
+                                    <!-- 全て空だった場合 -->
+                                    <?php if(empty($dbBoardData['all_attack_flg']) && empty($dbBoardData['re_enter_flg']) && empty($dbBoardData['lend_member_flg']) && empty($dbBoardData['pay_all_flg'])): ?>
+                                        その他の項目が設定されていません。
+                                    <?php endif ;?>      
                                 </td>
                             </tr>
                             <tr>
                                 <th>コメント</th>
-                                <td><?php echo $dbBoardData['comment']; ?></td>
+                                <?php if(!empty($dbBoardData['comment'])): ?>
+                                    <td><?php echo $dbBoardData['comment']; ?></td>
+                                <?php else: ?>
+                                    <td>コメントはありません。</td>
+                                <?php endif; ?>
                             </tr>
                         </table>
                     </section>
