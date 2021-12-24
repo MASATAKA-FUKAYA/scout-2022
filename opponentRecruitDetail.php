@@ -142,11 +142,23 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                             </tr>
                             <tr>
                                 <th>希望対戦相手レベル</th>
-                                <td>LEVEL<?php echo $dbBoardData['level_id_low']; ?> ~ LEVEL<?php echo $dbBoardData['level_id_high']; ?></td>
+                                <?php if(empty($dbBoardData['level_id_low']) && empty($dbBoardData['level_id_high'])) : ?>
+                                    <td>LEVEL<?php echo $dbBoardData['level_id_low']; ?> ~ LEVEL<?php echo $dbBoardData['level_id_high']; ?></td>
+                                <?php elseif(empty($dbBoardData['level_id_high'])): ?>
+                                    <td>LEVEL<?php echo $dbBoardData['level_id_low']; ?> ~</td>
+                                <?php elseif(empty($dbBoardData['level_id_low'])): ?>
+                                    <td>~ LEVEL<?php echo $dbBoardData['level_id_high']; ?></td>
+                                <?php else: ?>
+                                    <td>LEVEL<?php echo $dbBoardData['level_id_low']; ?> ~ LEVEL<?php echo $dbBoardData['level_id_high']; ?></td>
+                                <?php endif; ?>
                             </tr>
                             <tr>
                                 <th>審判</th>
-                                <td><?php echo getUmpireName($dbBoardData['umpire_id']); ?></td>
+                                <?php if((int)$dbBoardData['umpire_id'] !== 0): ?>
+                                    <td><?php echo getUmpireName($dbBoardData['umpire_id']); ?></td>
+                                <?php else: ?>
+                                    <td>審判について設定されていません。</td>
+                                <?php endif; ?>
                             </tr>
                             <tr>
                                 <th>その他</th>
