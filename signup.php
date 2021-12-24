@@ -56,7 +56,7 @@ if(!empty($_POST)){
                             //ログイン有効期限（デフォルトを1時間に）
                             $sesLimit = 60 * 60;
                             //最終ログイン日時を現在日時に
-                            $_SESSION['login.date'] = time();
+                            $_SESSION['login_date'] = time();
                             $_SESSION['login_limit'] = $sesLimit;
                             //ユーザーIDを格納
                             $_SESSION['user_id'] = $dbh->lastInsertId();
