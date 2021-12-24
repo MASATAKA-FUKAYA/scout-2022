@@ -66,7 +66,7 @@ if(!empty($_POST)){
     $pref = $_POST['prefectures'];
     $city= $_POST['city'];
     $category = (!empty($_POST['category_id'])) ? $_POST['category_id'] : null;
-    $g_flg = (!empty($_POST['g_flg'])) ? 1 : 0;
+    $g_flg = (int)$_POST['g_flg'];
     $g_name = $_POST['g_name'];
     $level_low = (!empty($_POST['level_id_low'])) ? $_POST['level_id_low'] : null;
     $level_high = (!empty($_POST['level_id_high'])) ? $_POST['level_id_high'] : null;
@@ -86,9 +86,9 @@ if(!empty($_POST)){
     validRequired($r_day, 'r_day');
     validRequired($pref, 'prefectures');
     validRequired($city, 'city');
-    validRequired($g_flg, 'g_flg');
+    //g_flgは入力必須であるが、必ずどちらかは選択されるので未入力バリデーションは行わない
 
-    if($g_flg == 1 && empty($g_name)){
+    if($g_flg === 1 && empty($g_name)){
         $err_msg['g_name'] = 'グラウンド名を入力してください';
     }
 
@@ -342,10 +342,10 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                             <div class="area-msg">
                                 <?php echo getErrMsg('g_flg'); ?>
                             </div>
-                            <input type="radio" id="yes" name="g_flg" value="true" checked>
+                            <input type="radio" id="yes" name="g_flg" value="1" checked>
                             <label class="label-radio" for="yes">有り</label>
 
-                            <input type="radio" id="no" name="g_flg" value="false" <?php if(getFormData('g_flg') == 0){ echo 'checked'; } ?>>
+                            <input type="radio" id="no" name="g_flg" value="0" <?php if(getFormData('g_flg') == 0){ echo 'checked'; } ?>>
                             <label class="label-radio" for="no">無し<span class="form-info">※必須</span></label>
 
                             <div class="area-msg">
