@@ -176,7 +176,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                     <?php elseif(!empty($_SESSION['user_id']) && $hostUserId == $_SESSION['user_id']) : ?>
                         <!-- ログインユーザーが募集の作成者の場合、募集を編集するボタン -->
                         <div class="btn btn-gray">
-                            <a href="makeMemberRecruit.php?b_id=<?php echo $b_id; ?>">募集を編集する</a>
+                            <a href="makeOpponentRecruit.php?b_id=<?php echo $b_id; ?>">募集を編集する</a>
                         </div>
 
                     <?php elseif(empty($_SESSION['user_id'])) : ?>
