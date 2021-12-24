@@ -43,9 +43,9 @@ if(!empty($_POST)){
                     try{
                         $dbh = dbConnect();
 
-                        $sql = 'INSERT INTO users (user_name, email, password, login_time, create_date) VALUES(:user_name, :email, :password, :login_time, :create_date)';
+                        $sql = 'INSERT INTO users (u_name, email, password, login_time, create_date) VALUES(:u_name, :email, :password, :login_time, :create_date)';
 
-                        $data = array(':user_name' => $name, ':email' => $email, ':password' => password_hash($pass, PASSWORD_DEFAULT),
+                        $data = array(':u_name' => $name, ':email' => $email, ':password' => password_hash($pass, PASSWORD_DEFAULT),
                                 ':login_time' => date('Y-m-d H:i:s'), ':create_date' => date('Y-m-d H:i:s'));
 
                         //クエリ実行
