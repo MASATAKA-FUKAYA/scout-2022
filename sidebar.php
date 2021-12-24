@@ -24,9 +24,6 @@
         <a href="opponentRecruit.php">対戦相手を検索</a>
     </p>
     <p class="sidebar-link">
-        <a href="favorite.php">お気に入り一覧</a>
-    </p>
-    <p class="sidebar-link">
         <a href="withdraw.php">退会する</a>
     </p>
  </section>
