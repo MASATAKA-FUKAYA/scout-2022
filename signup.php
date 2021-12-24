@@ -102,7 +102,7 @@ require('head.php');
                     <div class="area-msg">
                         <?php echo getErrMsg('name'); ?>
                     </div>
-                    <input type="text" name="name" id="name">
+                    <input type="text" name="name" id="name" value="<?php echo $_POST['name']; ?>">
                 </div>
 
                 <div class="form-part">
@@ -112,7 +112,7 @@ require('head.php');
                     <div class="area-msg">
                         <?php echo getErrMsg('email'); ?>
                     </div>
-                    <input type="email" name="email" id="email">
+                    <input type="email" name="email" id="email" value="<?php echo $_POST['email']; ?>">
                 </div>
 
                 <div class="form-part">
