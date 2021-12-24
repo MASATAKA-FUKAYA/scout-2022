@@ -110,7 +110,11 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                             </tr>
                             <tr>
                                 <th>募集プレーヤーレベル</th>
-                                <td>LEVEL<?php echo $dbBoardData['level_id']; ?>：<?php echo getLevelName($dbBoardData['level_id'])['name']; ?></td>
+                                <?php if($dbBoardData['level_id'] != 0): ?>
+                                    <td>LEVEL<?php echo $dbBoardData['level_id']; ?>：<?php echo getLevelName($dbBoardData['level_id'])['name']; ?>以上</td>
+                                <?php else: ?>
+                                    <td>LEVELの指定がありません。</td>
+                                <?php endif; ?>
                             </tr>
                             <tr>
                                 <th>活動曜日</th>
@@ -127,11 +131,15 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                             </tr>
                             <tr>
                                 <th>活動頻度</th>
-                                <td><?php echo getFrequencyName($dbBoardData['frequency_id'])['name']; ?></td>
+                                <?php if($dbBoardData['frequency_id'] != 0): ?>
+                                    <td><?php echo getFrequencyName($dbBoardData['frequency_id'])['name']; ?></td>
+                                <?php else: ?>
+                                    <td>活動頻度の指定がありません。</td>
+                                <?php endif; ?>
                             </tr>
                             <tr>
                                 <th>コメント</th>
-                                <td><?php echo $dbTeamData['comment']; ?></td>
+                                <td><?php echo $dbBoardData['comment']; ?></td>
                             </tr>
                         </table>
                     </section>
