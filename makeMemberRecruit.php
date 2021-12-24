@@ -13,12 +13,15 @@ require('auth.php');
 //画面処理
 //=====================
 
+//曜日フラグの表示、取得で使用
+$days = array('mon' => '月', 'tue' => '火', 'wed' => '水', 'thu' => '木', 'fri' => '金', 'sat' => '土', 'sun' => '日');
+
 //GETデータを格納
 $b_id = (!empty($_GET['b_id'])) ? $_GET['b_id'] : '';
 debug('募集ID：'.$b_id);
 
 
-//DBからチームデータを取得
+//DBから募集データを取得
 $dbFormData = (!empty($b_id)) ? getOneMemBoard($b_id) : '';
 debug('フォーム用DB募集データ：'.print_r($dbFormData,true));
 
@@ -257,7 +260,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                                     foreach($dbLevelData as $key => $val) :
                                 ?>
                                     <option value="<?php echo $val['id']; ?>" <?php if($dbFormData['level_id'] === $val['id'] || $_POST['level_id'] === $val['id']){ echo 'selected'; } ?>>
-                                        LEVEL <?php echo $val['id']; ?> : <?php echo $val['name']; ?>
+                                        LEVEL <?php echo $val['id']; ?> : <?php echo $val['name']; ?> 以上
                                     </option>
                                 <?php
                                     endforeach;
@@ -270,34 +273,13 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                                 活動曜日
                             </label>
                             <div class="checkbox-container">
-                                <div>
-                                    <input type="checkbox" id="mon" name="mon" value=1>
-                                    <label class="label-radio" for="mon">月</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="tue" name="tue" value=1>
-                                    <label class="label-radio" for="tue">火</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="wed" name="wed" value=1>
-                                    <label class="label-radio" for="wed">水</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="thu" name="thu" value=1>
-                                    <label class="label-radio" for="thu">木</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="fri" name="fri" value=1>
-                                    <label class="label-radio" for="fri">金</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="sat" name="sat" value=1>
-                                    <label class="label-radio" for="sat">土</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="sun" name="sun" value=1>
-                                    <label class="label-radio" for="sun">日</label>
-                                </div>
+                                <?php foreach($days as $key => $val): ?>
+                                    <div>
+                                        <input type="checkbox" id="<?php echo $key ?>" name="<?php echo $key ?>" <?php if($dbFormData["flg_{$key}"] == 1 || $_POST["flg_{$key}"] == 1){ echo 'checked'; } ?> value=1>
+                                        <label class="label-radio" for="<?php echo $key ?>"><?php echo $val ?></label>
+                                    </div>
+                                <?php endforeach ; ?>
+                                
                             </div>
                         </div>
 
