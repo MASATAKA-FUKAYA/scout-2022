@@ -122,7 +122,7 @@ require('head.php');
                     <div class="area-msg">
                         <?php echo getErrMsg('email'); ?>
                     </div>
-                    <input type="email" name="email" id="email">
+                    <input type="email" name="email" id="email" value="<?php echo $_POST['email'] ?>">
                 </div>
                 <div class="form-part">
                     <label for="pass">
