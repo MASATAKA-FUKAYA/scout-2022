@@ -121,10 +121,15 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                                 <td>
                                     <?php
                                         $days = array("mon" => '月', "tue" => '火', "wed" => '水', "thu" => '木', "fri" => '金', "sat" => '土', "sun" => '日');
-                                        foreach($days as $key => $val){
-                                            if($dbBoardData["flg_{$key}"] == 1){
-                                                echo $val. ' ';
+                                        $flg_days = array($dbBoardData['flg_mon'], $dbBoardData['flg_tue'], $dbBoardData['flg_wed'], $dbBoardData['flg_thu'], $dbBoardData['flg_fri'], $dbBoardData['flg_sat'], $dbBoardData['flg_sun']);
+                                        if(in_array(1, $flg_days)){
+                                            foreach($days as $key => $val){
+                                                if($dbBoardData["flg_{$key}"] == 1){
+                                                    echo $val. ' ';
+                                                }
                                             }
+                                        }else{
+                                            echo '指定がありません。';
                                         }
                                     ?>
                                 </td>
@@ -134,7 +139,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                                 <?php if($dbBoardData['frequency_id'] != 0): ?>
                                     <td><?php echo getFrequencyName($dbBoardData['frequency_id'])['name']; ?></td>
                                 <?php else: ?>
-                                    <td>活動頻度の指定がありません。</td>
+                                    <td>指定がありません。</td>
                                 <?php endif; ?>
                             </tr>
                             <tr>
