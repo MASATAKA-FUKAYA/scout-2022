@@ -34,8 +34,8 @@ if(!empty($_POST)){
     $level_high = $_POST['level_id_high'];
     $frequency = $_POST['frequency_id'];
 
-    //SQL文のforeach用
-    $days = array('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun');
+    //SQL文のforeach、画面の活動曜日で使用
+    $activeDays = array("mon" => '月', "tue" => '火', "wed" => '水', "thu" => '木', "fri" => '金', "sat" => '土', "sun" => '日');
 
     //バリデーション
     //今回は未入力はなし
@@ -79,10 +79,10 @@ if(!empty($_POST)){
                 $data[':level_id_high'] = $level_high;
             }
 
-            foreach($days as $key => $val){
-                if(!empty($_POST[$val])){
-                    $sql .= " AND flg_{$val} = :flg_{$val}";
-                    $data[":flg{$val}"] = 1;
+            foreach($activeDays as $key => $val){
+                if(!empty($_POST[$key])){
+                    $sql .= " AND flg_{$key} = :flg_{$key}";
+                    $data[":flg_{$key}"] = 1;
                 }
             }
 
@@ -233,34 +233,14 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                                 活動曜日
                             </label>
                             <div class="checkbox-container">
-                                <div>
-                                    <input type="checkbox" id="mon" name="mon">
-                                    <label class="label-radio" for="mon">月</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="tue" name="tue">
-                                    <label class="label-radio" for="tue">火</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="wed" name="wed">
-                                    <label class="label-radio" for="wed">水</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="thu" name="thu">
-                                    <label class="label-radio" for="thu">木</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="fri" name="fri">
-                                    <label class="label-radio" for="fri">金</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="sat" name="sat">
-                                    <label class="label-radio" for="sat">土</label>
-                                </div>
-                                <div>
-                                    <input type="checkbox" id="sun" name="sun">
-                                    <label class="label-radio" for="sun">日</label>
-                                </div>
+
+                                <?php foreach($activeDays as $key => $val): ?>
+                                    <div>
+                                        <input type="checkbox" id="<?php echo $key ?>" name="<?php echo $key ?>" value="1">
+                                        <label class="label-radio" for="<?php echo $key ?>"><?php echo $val ?></label>
+                                    </div>
+                                <?php endforeach; ?>
+                                
                             </div>
                         </div>
 
@@ -291,39 +271,49 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                     <div class="result-title">
                         <h3>検索結果</h3>
                     </div>
-                    <?php foreach($result as $key => $val) : ?>
-                        <div class="result-container">
-                            <section>
-                                <a href="memberRecruitDetail.php?b_id=<?php echo $val['id']; ?>">
-                                    <h3 class="rec-title"><?php echo $val['title']; ?></h3>
-                                    <p class="opponent-rec-text">募集プレーヤーレベル：LEVEL<?php echo $val['level_id']; ?></p>
-                                    <p class="opponent-rec-text">
-                                        活動曜日：
-                                        <?php
-                                        $activeDays = array("mon" => '月', "tue" => '火', "wed" => '水', "thu" => '木', "fri" => '金', "sat" => '土', "sun" => '日');
-                                        foreach($activeDays as $key2 => $val2){
-                                            if($val["flg_{$key2}"] == 1){
-                                                echo $val2. ' ';
+                    <!-- そもそもPOST送信がない場合（初めてページを読み込んだ時） --> 
+                    <?php if(empty($_POST)): ?>
+                        <p style="font-size:20px;margin:5px 0;">検索条件を指定してください。</p>
+                    
+                    <!-- 検索条件にマッチするチームがあった時 -->
+                    <?php elseif(!empty($result)): ?>
+                        <?php foreach($result as $key => $val) : ?>
+                            <div class="result-container">
+                                <section>
+                                    <a href="memberRecruitDetail.php?b_id=<?php echo $val['id']; ?>">
+                                        <h3 class="rec-title"><?php echo $val['title']; ?></h3>
+                                        <p class="opponent-rec-text">募集プレーヤーレベル：LEVEL<?php echo $val['level_id']; ?></p>
+                                        <p class="opponent-rec-text">
+                                            活動曜日：
+                                            <?php
+                                            foreach($activeDays as $key2 => $val2){
+                                                if($val["flg_{$key2}"] == 1){
+                                                    echo $val2. ' ';
+                                                }
                                             }
-                                        }
-                                    ?>
-                                    </p>
-                                    <p class="opponent-rec-text">活動頻度：<?php echo getFrequencyName($val['frequency_id'])['name']; ?></p>
-                                </a>
-                            </section>
-                            <div class="result-wrapper">
-                                <?php $teamData = getTeam($val['team_id']); ?>
-                                    <a href="teamDetail.php?t_id=<?php echo $val['team_id']; ?>">
-                                        <div class="result-img"><img src="<?php echo $teamData['pic']; ?>" alt="<?php echo $teamData['team_name']; ?>"></div>
-                                        <div class="result-text">
-                                            <h4><?php echo $teamData['team_name']; ?></h4>
-                                            <p><?php echo $teamData['prefectures']. $teamData['city']; ?><br><?php echo getLevelName($teamData['level_id'])['name']; ?>中心<br><?php echo getCategoryName($teamData['category_id'])['name']; ?></p>
-                                        </div>
+                                        ?>
+                                        </p>
+                                        <p class="opponent-rec-text">活動頻度：<?php echo getFrequencyName($val['frequency_id'])['name']; ?></p>
                                     </a>
+                                </section>
+                                <div class="result-wrapper">
+                                    <?php $teamData = getTeam($val['team_id']); ?>
+                                        <a href="teamDetail.php?t_id=<?php echo $val['team_id']; ?>">
+                                            <div class="result-img"><img src="<?php echo $teamData['pic']; ?>" alt="<?php echo $teamData['team_name']; ?>"></div>
+                                            <div class="result-text">
+                                                <h4><?php echo $teamData['team_name']; ?></h4>
+                                                <p><?php echo $teamData['prefectures']. $teamData['city']; ?><br><?php echo getLevelName($teamData['level_id'])['name']; ?>中心<br><?php echo getCategoryName($teamData['category_id'])['name']; ?></p>
+                                            </div>
+                                        </a>
+                                </div>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
-
+                        <?php endforeach; ?>
+                    
+                    <!-- 一致する検索結果がない場合 --> 
+                    <?php elseif(empty($result)): ?>
+                        <p style="font-size:20px;margin:5px 0;">検索条件に一致するチームはありません。</p>
+                    
+                    <?php endif; ?>
 
                     <!--  ページネーションをここに入れる　-->
                 </section>
