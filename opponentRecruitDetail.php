@@ -143,7 +143,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                             <tr>
                                 <th>希望対戦相手レベル</th>
                                 <?php if(empty($dbBoardData['level_id_low']) && empty($dbBoardData['level_id_high'])) : ?>
-                                    <td>LEVEL<?php echo $dbBoardData['level_id_low']; ?> ~ LEVEL<?php echo $dbBoardData['level_id_high']; ?></td>
+                                    <td>設定されていません。</td>
                                 <?php elseif(empty($dbBoardData['level_id_high'])): ?>
                                     <td>LEVEL<?php echo $dbBoardData['level_id_low']; ?> ~</td>
                                 <?php elseif(empty($dbBoardData['level_id_low'])): ?>
@@ -157,7 +157,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                                 <?php if((int)$dbBoardData['umpire_id'] !== 0): ?>
                                     <td><?php echo getUmpireName($dbBoardData['umpire_id']); ?></td>
                                 <?php else: ?>
-                                    <td>審判について設定されていません。</td>
+                                    <td>設定されていません。</td>
                                 <?php endif; ?>
                             </tr>
                             <tr>
@@ -169,7 +169,7 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                                     <?php if(!empty($dbBoardData['pay_all_flg'])){ echo '費用は主催者負担'; } ?>
                                     <!-- 全て空だった場合 -->
                                     <?php if(empty($dbBoardData['all_attack_flg']) && empty($dbBoardData['re_enter_flg']) && empty($dbBoardData['lend_member_flg']) && empty($dbBoardData['pay_all_flg'])): ?>
-                                        その他の項目が設定されていません。
+                                        設定されていません。
                                     <?php endif ;?>      
                                 </td>
                             </tr>
