@@ -282,18 +282,26 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                                 <section>
                                     <a href="memberRecruitDetail.php?b_id=<?php echo $val['id']; ?>">
                                         <h3 class="rec-title"><?php echo $val['title']; ?></h3>
-                                        <p class="opponent-rec-text">募集プレーヤーレベル：LEVEL<?php echo $val['level_id']; ?></p>
+                                        <p class="opponent-rec-text">
+                                            <?php if($val['level_id'] !== '0'): ?>
+                                                募集プレーヤーレベル：LEVEL<?php echo $val['level_id']; ?>
+                                            <?php else: ?>
+                                                プレーヤーレベルの指定はありません。
+                                            <?php endif; ?>
+                                        </p>
                                         <p class="opponent-rec-text">
                                             活動曜日：
-                                            <?php
-                                            foreach($activeDays as $key2 => $val2){
-                                                if($val["flg_{$key2}"] == 1){
-                                                    echo $val2. ' ';
-                                                }
-                                            }
-                                        ?>
+                                            <?php foreach($activeDays as $key2 => $val2): ?>
+                                                <?php if($val["flg_{$key2}"] == 1){echo $val2. ' ';} ?>
+                                            <?php endforeach; ?>
                                         </p>
-                                        <p class="opponent-rec-text">活動頻度：<?php echo getFrequencyName($val['frequency_id'])['name']; ?></p>
+                                        <p class="opponent-rec-text">
+                                            <?php if((int)$val['frequency_id'] !== 0): ?>
+                                                活動頻度：<?php echo getFrequencyName($val['frequency_id'])['name']; ?>
+                                            <?php else: ?>
+                                                活動頻度の指定がありません。
+                                            <?php endif; ?>
+                                        </p>
                                     </a>
                                 </section>
                                 <div class="result-wrapper">
