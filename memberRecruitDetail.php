@@ -35,6 +35,9 @@ if(!empty($b_id) && empty($dbBoardData)){
     exit();
 }
 
+//メンバー募集なので0。メッセージ画面での判定で使用するためここで格納
+$badge = 0;
+
 //POST送信があった場合、掲示板を作成して遷移
 if(!empty($_POST['submit'])){
     debug('POST送信があります。');
