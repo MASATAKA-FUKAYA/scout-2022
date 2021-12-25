@@ -17,6 +17,9 @@ $dbCategoryData = getCategory();
 $dbLevelData = getLevel();
 $dbFrequencyData = getFrequency();
 
+//SQL文のforeach、画面の活動曜日で使用
+    $activeDays = array("mon" => '月', "tue" => '火', "wed" => '水', "thu" => '木', "fri" => '金', "sat" => '土', "sun" => '日');
+
 //foreachで引っかかるので先に宣言
 $result = '';
 
@@ -33,9 +36,6 @@ if(!empty($_POST)){
     $level_low = $_POST['level_id_low'];
     $level_high = $_POST['level_id_high'];
     $frequency = $_POST['frequency_id'];
-
-    //SQL文のforeach、画面の活動曜日で使用
-    $activeDays = array("mon" => '月', "tue" => '火', "wed" => '水', "thu" => '木', "fri" => '金', "sat" => '土', "sun" => '日');
 
     //バリデーション
     //今回は未入力はなし
@@ -233,14 +233,12 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                                 活動曜日
                             </label>
                             <div class="checkbox-container">
-
                                 <?php foreach($activeDays as $key => $val): ?>
                                     <div>
-                                        <input type="checkbox" id="<?php echo $key ?>" name="<?php echo $key ?>" value="1">
-                                        <label class="label-radio" for="<?php echo $key ?>"><?php echo $val ?></label>
+                                        <input type="checkbox" id="<?php echo $key; ?>" name="<?php echo $key; ?>" value="1" <?php if(!empty($_POST[$key])){echo 'checked';}?>>
+                                        <label class="label-radio" for="<?php echo $key; ?>"><?php echo $val; ?></label>
                                     </div>
                                 <?php endforeach; ?>
-                                
                             </div>
                         </div>
 
@@ -290,10 +288,14 @@ debug('画面表示処理終了 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
                                             <?php endif; ?>
                                         </p>
                                         <p class="opponent-rec-text">
-                                            活動曜日：
-                                            <?php foreach($activeDays as $key2 => $val2): ?>
-                                                <?php if($val["flg_{$key2}"] == 1){echo $val2. ' ';} ?>
-                                            <?php endforeach; ?>
+                                            <?php if(in_array(1, array($val['flg_mon'], $val['flg_tue'], $val['flg_wed'], $val['flg_thu'], $val['flg_fri'], $val['flg_sat'], $val['flg_sun']))): ?>
+                                                活動曜日：
+                                                <?php foreach($activeDays as $key2 => $val2): ?>
+                                                    <?php if($val["flg_{$key2}"] == 1){echo $val2. ' ';} ?>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                活動曜日の指定がありません。
+                                            <?php endif; ?>
                                         </p>
                                         <p class="opponent-rec-text">
                                             <?php if((int)$val['frequency_id'] !== 0): ?>
