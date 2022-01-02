@@ -214,9 +214,9 @@ function getErrMsg($key){
 //DB接続関数
 function dbConnect(){
     //DBへの接続準備
-    $dsn = 'mysql:dbname=scout-2022;host=root;charset=utf8';
-    $user = 'masataka';
-    $password = 'mstka46625';
+    $dsn = 'mysql:dbname=heroku_61afd5f3696fc49;host=us-cdbr-east-05.cleardb.net;charset=utf8';
+    $user = 'bcf8743287e312';
+    $password = 'db1cc840';
     $options = array(
         //SQL実行時にはエラーコードのみ設定
         PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
